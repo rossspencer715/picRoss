@@ -1,0 +1,30 @@
+<html>
+    <head>
+        PicRoss Game
+    </head>
+    <style>
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <body>
+        <h1>
+            Welcome to PicRoss! Press start to play...
+        </h1>
+        <table class="center">
+            {%for row in grid%}
+            <tr>
+                {%for item in row%}
+                <!-- <td>|&nbsp;&nbsp;&nbsp;&nbsp;{{item}}&nbsp;&nbsp;&nbsp;&nbsp;|</td> -->
+                <img src="{{url_for('static', filename='grey_box.png')}}" width="42" height="42"/>
+                {%endfor%}
+            </tr>
+            <br>
+            {%endfor%}
+        </table>
+        <form action="/check" method="post">
+            <input type="submit" value="Submit">
+        </form>
+    </body>
+</html>
