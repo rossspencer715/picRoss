@@ -1,6 +1,6 @@
 <html>
     <head>
-        PicRoss Game
+        <title>PicRoss</title>
     </head>
     <style>
         .center {
@@ -13,11 +13,26 @@
             Welcome to PicRoss! Press start to play...
         </h1>
         <table class="center">
-            {%for row in grid%}
+            {%for row in range(grid|length)%}
             <tr>
-                {%for item in row%}
+                {%for col in range(grid[0]|length)%}
                 <!-- <td>|&nbsp;&nbsp;&nbsp;&nbsp;{{item}}&nbsp;&nbsp;&nbsp;&nbsp;|</td> -->
-                <img src="{{url_for('static', filename='grey_box.png')}}" width="42" height="42"/>
+                <!-- <img src="{{url_for('static', filename='grey_box.png')}}" width="42" height="42"/> -->
+                    {% if grid[row][col]|int == 1|int %}
+                        <input type="image" name="{{ 'box' + row|string + col|string }}" alt="box" 
+                        src="{{url_for('static', filename='blue_box.png')}}" width="42" height="42"
+                        action="{{ url_for('root') }}" method="post">
+                    {% elif grid[row][col]|int == -1|int %}
+                        <input type="image" name="{{ 'box' + row|string + col|string }}" alt="box" 
+                        src="{{url_for('static', filename='red_box.png')}}" width="42" height="42"
+                        action="{{ url_for('root') }}" method="post">
+                    {% else %}
+                        <input type="image" name="{{ 'box' + row|string + col|string }}" alt="box" 
+                        src="{{url_for('static', filename='grey_box.png')}}" width="42" height="42"
+                        action="{{ url_for('root') }}" method="post">
+                    {% endif %}
+                
+               
                 {%endfor%}
             </tr>
             <br>
