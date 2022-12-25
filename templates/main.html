@@ -13,17 +13,27 @@
             Welcome to PicRoss! Press start to play...
         </h1>
         <table class="center">
+            <tr>
+                <!-- column hints go here -->
+                <!-- <th></th> -->
+                {%for row in range(grid|length)%}
+                <th>{{colHint[row]}}</th>
+                {%endfor%}
+            </tr>
             {%for row in range(grid|length)%}
             <tr>
                 {%for col in range(grid[0]|length)%}
-                <!-- <td>|&nbsp;&nbsp;&nbsp;&nbsp;{{item}}&nbsp;&nbsp;&nbsp;&nbsp;|</td> -->
-                <!-- <img src="{{url_for('static', filename='grey_box.png')}}" width="42" height="42"/> -->
+                {% if (col == "0") %}
+                <th>1</th>
+                {%endif%}
+                <td>
                 <form action="{{ url_for('root') }}" method="post" >
-                    {% if grid[row][col]|int == 1|int %}
+                    <!-- <p>{{grid[row][col]}}</p> -->
+                    {% if (grid[row][col] == "1") %}
                         <input type="hidden" value="{{ 'box' + row|string + col|string }}" name="box_name">
                         <input type="image" alt="box" 
                         src="{{url_for('static', filename='blue_box.png')}}" width="42" height="42">
-                    {% elif grid[row][col]|int == -1|int %}
+                    {% elif (grid[row][col] == "2") %}
                         <input type="hidden" value="{{ 'box' + row|string + col|string }}" name="box_name">
                         <input type="image" alt="box" 
                         src="{{url_for('static', filename='red_box.png')}}" width="42" height="42">
@@ -33,7 +43,7 @@
                         src="{{url_for('static', filename='grey_box.png')}}" width="42" height="42">
                     {% endif %}
                 </form>
-               
+                </td>
                 {%endfor%}
             </tr>
             <br>

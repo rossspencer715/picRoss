@@ -5,19 +5,28 @@ app = Flask(__name__)
 GRIDLENGTH = 5
 GRIDWIDTH = 5
 NRAND = 10
-grid = [[0 for i in range(5)] for _ in range(GRIDLENGTH)]
-gridGuess = [[0 for i in range(5)] for _ in range(GRIDWIDTH)]
+grid = [["0" for i in range(GRIDWIDTH)] for _ in range(GRIDLENGTH)]
+gridGuess = [["0" for i in range(GRIDWIDTH)] for _ in range(GRIDLENGTH)]
 # area = (GRIDLENGTH*GRIDWIDTH)
-
+colHint = ["1-3","2","3","4","5"]
 
 def initGrid():
     global grid
     global gridGuess
     for i in range(NRAND):
-        randRow = random.randrange(GRIDLENGTH)
-        randCol = random.randrange(GRIDWIDTH)
-        grid[randRow][randCol] = 1
-        gridGuess[randRow][randCol] = -1 if randRow < GRIDLENGTH//2 else 1
+        # intentionally letting some points potentially
+        # overwrite the same box to add variability
+        randRow = random.randint(0, GRIDLENGTH-1)
+        randCol = random.randint(0, GRIDWIDTH-1)
+        grid[randRow][randCol] = "1"
+        gridGuess[randRow][randCol] = "2"
+    print("grid is:\n")
+    for row in grid:
+        print(row)
+    print("gridGuess is:\n")
+    for row in gridGuess:
+        print(row)
+
 
 
 @app.route('/', methods=['GET','POST'])
@@ -26,17 +35,26 @@ def root():
     if request.method == 'POST':
         try:
             boxName = request.form.get("box_name")
+            print(boxName)
             boxNum = int(boxName[3:])
-            row = boxNum // 10
-            col = boxNum % 10
-            if grid[row][col] == 1:
-                gridGuess[row][col] = 1
+            print(boxNum)
+            rowIdx = boxNum // 10
+            colIdx = boxNum % 10
+            print(rowIdx, colIdx)
+            print("grid is:\n")
+            for row in grid:
+                print(row)
+            print("gridGuess is:\n")
+            for row in gridGuess:
+                print(row)
+            if grid[rowIdx][colIdx] == "1":
+                gridGuess[rowIdx][colIdx] = "1"
             else:
-                gridGuess[row][col] = -1
-            return render_template('main.html', grid=gridGuess)
+                gridGuess[rowIdx][colIdx] = "2"
+            return render_template('main.html', grid=gridGuess, colHint=colHint)
         except Exception as e:
             print(e)
-    return render_template('main.html', grid=gridGuess)
+    return render_template('main.html', grid=gridGuess, colHint=colHint)
       
          
 if __name__ == '__main__':
