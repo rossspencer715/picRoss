@@ -5,14 +5,15 @@ app = Flask(__name__)
 GRIDLENGTH = 5
 GRIDWIDTH = 5
 NRAND = 10
-grid = [["0" for i in range(GRIDWIDTH)] for _ in range(GRIDLENGTH)]
-gridGuess = [["0" for i in range(GRIDWIDTH)] for _ in range(GRIDLENGTH)]
 # area = (GRIDLENGTH*GRIDWIDTH)
 colHint = ["1-3","2","3","4","5"]
 
 def initGrid():
     global grid
     global gridGuess
+    grid = [["0" for i in range(GRIDWIDTH)] for _ in range(GRIDLENGTH)]
+    gridGuess = [["0" for i in range(GRIDWIDTH)] for _ in range(GRIDLENGTH)]
+
     for i in range(NRAND):
         # intentionally letting some points potentially
         # overwrite the same box to add variability
@@ -32,7 +33,9 @@ def initGrid():
 @app.route('/', methods=['GET','POST'])
 def root():
     global gridGuess
-    if request.method == 'POST':
+    if request.method == 'GET':
+        initGrid()
+    else:
         try:
             boxName = request.form.get("box_name")
             print(boxName)
@@ -58,5 +61,4 @@ def root():
       
          
 if __name__ == '__main__':
-    initGrid()
     app.run(debug = True, host='0.0.0.0', port=80)
