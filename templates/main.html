@@ -16,15 +16,15 @@
             <tr>
                 <!-- column hints go here -->
                 <!-- <th></th> -->
-                {%for row in range(grid|length)%}
-                <th>{{colHint[row]}}</th>
+                {%for row in range(grid|length+1)%}
+                <th>{{colHints[row]}}</th>
                 {%endfor%}
             </tr>
             {%for row in range(grid|length)%}
             <tr>
                 {%for col in range(grid[0]|length)%}
-                {% if (col == "0") %}
-                <th>1</th>
+                {% if (col|int == 0|int) %}
+                <th>{{rowHints[row]}}</th>
                 {%endif%}
                 <td>
                 <form action="{{ url_for('root') }}" method="post" >
