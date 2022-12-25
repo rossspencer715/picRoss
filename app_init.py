@@ -25,7 +25,7 @@ def root():
     global gridGuess
     if request.method == 'POST':
         try:
-            boxName = request.form.get("name")
+            boxName = request.form.get("box_name")
             boxNum = int(boxName[3:])
             row = boxNum // 10
             col = boxNum % 10
@@ -41,4 +41,4 @@ def root():
          
 if __name__ == '__main__':
     initGrid()
-    app.run(debug = True)
+    app.run(debug = True, host='0.0.0.0', port=80)
